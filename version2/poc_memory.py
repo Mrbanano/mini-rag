@@ -147,6 +147,22 @@ save("El proyecto Banabot corre en una Raspberry Pi 4",         "fact", expires_
 save("La ventana de contexto del agente esta limitada a 8192 tokens", "fact", expires_days=180)
 save("Se decidio usar usearch para la memoria semantica",       "fact", expires_days=180)
 
+# Memories in English
+save("Alvaro loves drinking black coffee in the morning", "episodic")
+save("The new server architecture will use Kubernetes", "fact")
+
+# Memories in French
+save("La couleur preferee d'Alvaro est le bleu", "user_profile")
+save("Nous devons acheter du pain et du lait demain", "episodic")
+
+# Memories in German
+save("Alvaro hat letztes Jahr ein neues Auto gekauft", "episodic")
+save("Das Buro befindet sich im Stadtzentrum", "fact")
+
+# Memories in Portuguese
+save("Alvaro esta aprendendo a tocar violao", "episodic")
+save("O Brasil e o maior pais da America do Sul", "fact")
+
 with Step("guardar indice usearch a disco"):
     index.save(INDEX_PATH)
 
@@ -155,13 +171,16 @@ print(f"\n  {total} recuerdos guardados")
 
 # ── Busquedas ─────────────────────────────────────────────────────────────────
 
-header("BUSQUEDAS RELEVANTES")
+header("BUSQUEDAS RELEVANTES (Español)")
 search("boda familiar")
 search("mascotas o animales")
 search("stack tecnologico del desarrollador")
-search("hardware donde corre el bot")
-search("viaje o vacaciones recientes")
-search("restricciones del agente de IA")
+
+header("BUSQUEDAS MULTILENGUAJE (Probando Nomic-Embed)")
+search("search_query: family wedding") # Inglés
+search("search_query: animaux de compagnie") # Francés (mascotas)
+search("search_query: urlaub") # Alemán (vacaciones)
+search("search_query: onde o bot funciona?") # Portugués (donde corre el bot)
 
 header("RUIDO (score deberia ser bajo)")
 search("receta de tamales")
