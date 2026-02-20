@@ -14,7 +14,7 @@ import os
 from fastembed import TextEmbedding
 from usearch.index import Index
 
-embedding_model = "intfloat/multilingual-e5-small"
+embedding_model = "nomic-ai/nomic-embed-text-v1.5-Q"
 
 # ── Monitor ────────────────────────────────────────────────────────────────────
 
