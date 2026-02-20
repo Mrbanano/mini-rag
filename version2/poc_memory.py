@@ -14,6 +14,8 @@ import os
 from fastembed import TextEmbedding
 from usearch.index import Index
 
+embedding_model = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+
 # ── Monitor ────────────────────────────────────────────────────────────────────
 
 proc = psutil.Process(os.getpid())
@@ -52,8 +54,8 @@ DIMS       = 384
 
 header("INICIO")
 
-with Step("cargar modelo (bge-small-en-v1.5)"):
-    model = TextEmbedding("BAAI/bge-small-en-v1.5")
+with Step(f"cargar modelo ({embedding_model})"):
+    model = TextEmbedding(embedding_model)
 
 with Step("inicializar usearch index"):
     index = Index(ndim=DIMS, metric="cos", dtype="f32")
@@ -82,6 +84,13 @@ def embed(text: str) -> np.ndarray:
 def save(content: str, type: str = "episodic", expires_days=30):
     label = f"save [{type}] '{content[:40]}'" + ("..." if len(content) > 40 else "")
     with Step(label):
+        # Idempotente: no duplicar si ya existe el mismo contenido
+        existing = db.execute(
+            "SELECT id FROM memory_meta WHERE content = ?", [content]
+        ).fetchone()
+        if existing:
+            return existing[0]
+
         expires = f"datetime('now', '+{expires_days} days')" if expires_days else "NULL"
         cursor = db.execute(
             f"INSERT INTO memory_meta(content, type, expires_at) VALUES (?, ?, {expires})",
@@ -90,6 +99,7 @@ def save(content: str, type: str = "episodic", expires_days=30):
         mid = cursor.lastrowid
         db.commit()
         index.add(mid, embed(content))
+        return mid
 
 def recall(query: str, k: int = 3) -> list:
     matches = index.search(embed(query), k)
