@@ -15,6 +15,7 @@ from fastembed import TextEmbedding
 from usearch.index import Index
 
 embedding_model = "nomic-ai/nomic-embed-text-v1.5-Q"
+DIMS = 768  # era 384
 
 # ── Monitor ────────────────────────────────────────────────────────────────────
 
@@ -50,7 +51,7 @@ def header(t):
 
 DB_PATH    = "memory.db"
 INDEX_PATH = "memory.usearch"
-DIMS       = 384
+DIMS       = DIMS
 
 header("INICIO")
 
