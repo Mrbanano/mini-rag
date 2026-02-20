@@ -15,7 +15,7 @@ from rank_bm25 import BM25Okapi
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "sk-...")
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 # ── Monitor ────────────────────────────────────────────────────────────────────
