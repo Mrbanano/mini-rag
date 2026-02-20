@@ -14,7 +14,7 @@ import os
 from fastembed import TextEmbedding
 from usearch.index import Index
 
-embedding_model = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+embedding_model = "intfloat/multilingual-e5-small"
 
 # ── Monitor ────────────────────────────────────────────────────────────────────
 
